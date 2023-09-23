@@ -55,6 +55,18 @@ struct Term {
     Term* k0 = nullptr; // свободный коэф
     Term* k1 = nullptr; // коэф при первой
     Term* k2 = nullptr; // коэф при второй
+
+    ~Term() {
+        if (k0) {
+            delete k0;
+        }
+        if (k1) {
+            delete k1;
+        }
+        if (k2) {
+            delete k2;
+        }
+    }
 };
 
 struct Rule {
@@ -211,8 +223,6 @@ const map<string, string>& l, const map<string, string>& r) {
     smt_content += "))\n";
 }
 
-// TODO: ДОДЕЛАТЬ ОЧИЩЕНИЕ ДИНАМИЧЕСКОЙ ПАМЯТИ ДЛЯ ДЕРЕВА ТЕРМОВ!!!
-
 int main() {
     cout << "Введите variables(в скобках через запятую без пробелов) в формате \"(x,y,z,...)\":" << endl;
     string vars_str;
@@ -256,6 +266,13 @@ int main() {
     out.close();
     cout << smt_content;
 
+    // очищаем динамическую память
+    for (auto rule : rules) {
+        if (rule.l) 
+            delete rule.l;
+        if (rule.r)
+            delete rule.r;
+    }
 
     cout << endl;
     return 0;
