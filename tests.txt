@@ -2,3 +2,6 @@
 (a|b*)
 (a)(b)
 a|(ab*)*
+abc|(ab)*(c)|b
+ab|(ab*(ab)* | cb)|ab
+((a | (b)*)* | c) | a* (b* | c) b* (a)
