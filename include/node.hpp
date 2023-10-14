@@ -30,9 +30,12 @@ public:
     void addChild(Node *child);
     void setParent(Node* parent);
     void replaceChild(Node* from, Node* to);
+    void insertChildAfter(Node* left, Node* child);
+    void removeChild(Node* child);
     char getOp();
     vector<Node*> getChildren();
     Node* getParent();
+    Node* simplifyTree();
 
 private:
     char op_;

@@ -4,4 +4,4 @@
 a|(ab*)*
 abc|(ab)*(c)|b
 ab|(ab*(ab)* | cb)|ab
-((a | (b)*)* | c) | a* (b* | c) b* (a)
+((a|(b)*)*|c)|a*(b*|c)b*(a)

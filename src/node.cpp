@@ -1,5 +1,7 @@
 #include "node.hpp"
 
+#include <algorithm>
+
 Node::Node(char op) : op_(op)
 {
 }
@@ -42,6 +44,16 @@ void Node::replaceChild(Node *from, Node *to)
     }
 }
 
+void Node::insertChildAfter(Node *left, Node *child)
+{
+    children_.insert(find(children_.begin(), children_.end(), left), child);
+}
+
+void Node::removeChild(Node *child)
+{
+    children_.erase(find(children_.begin(), children_.end(), child));
+}
+
 char Node::getOp()
 {
     return op_;
@@ -55,4 +67,41 @@ vector<Node *> Node::getChildren()
 Node *Node::getParent()
 {
     return parent_;
+}
+
+Node* Node::simplifyTree()
+{
+    if (op_ == ops::LETTER) {
+        return this;
+    }
+    if (op_ == ops::STAR) {
+        children_[0] = children_[0]->simplifyTree();
+        return this;
+    }
+
+    // ops::CONCAT || ops::OR
+    for (int i = 0; i < children_.size(); ++i) {
+        children_[i] = children_[i]->simplifyTree();
+    }
+    for (int i = 0; i < children_.size(); ++i) {
+        Node* ch = children_[i];
+        if (op_ == ch->getOp()) {
+            vector<Node*> ch_children = ch->getChildren();
+            children_.insert(find(children_.begin(), children_.end(), ch), ch_children.begin(), ch_children.end());
+            for (int i = 0; i < ch_children.size(); ++i) {
+                ch_children[i]->setParent(this);
+            }
+            removeChild(ch);
+        }
+    }
+    if (children_.size() == 1) {
+        Node* new_root = children_[0];
+        if (parent_) {
+            parent_->replaceChild(this, new_root);
+        }
+        children_.clear();
+        delete this;
+        return new_root;
+    }
+    return this;
 }
