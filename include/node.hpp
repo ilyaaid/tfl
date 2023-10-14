@@ -5,7 +5,8 @@
 
 using namespace std;
 
-struct ops {
+struct ops
+{
     static const char CONCAT = '.';
     static const char OR = '|';
     static const char STAR = '*';
@@ -15,7 +16,8 @@ struct ops {
     
 };
 
-struct terms {
+struct terms
+{
     static const char OR = '|';
     static const char STAR = '*';
     static const char L_BR = '(';
@@ -30,22 +32,29 @@ public:
 
 public:
     Node *getRightChild();
-    void setRightChild(Node* node);
+    void setRightChild(Node *node);
     void addChild(Node *child);
-    void setParent(Node* parent);
-    void replaceChild(Node* from, Node* to);
+    void setParent(Node *parent);
+    void replaceChild(Node *from, Node *to);
+    void removeChild(Node *child);
     char getOp();
     void setOp(char op);
     string getLetter();
     void setLetter(string letter);
-    Node* simplifyTree();
+    
     void removeChild(Node* child);
     vector<Node*> getChildren();
     Node* getParent();
+
+    Node* simplifyTree();
+    
+    void ss();
+    void ssnf();
+
 
 private:
     char op_;
     string letter_;
     vector<Node *> children_;
-    Node* parent_ = nullptr;
+    Node *parent_ = nullptr;
 };

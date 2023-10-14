@@ -6,7 +6,6 @@
 
 using namespace std;
 
-
 int main(int, char **)
 {
     string regExpr = "";
@@ -14,11 +13,13 @@ int main(int, char **)
     RegExprParser parser;
     try
     {
-        Node *root = parser.parse(regExpr, "abc");
+        Node *root = parser.parse(regExpr, "abcde");
         root = root -> simplifyTree();
         GlushkovAutomat automat(root);
         automat.linearizeTree();
         root = automat.getSourceTree();
+        root = root->simplifyTree();
+        root->ssnf();
         cout << "done!" << endl;
     }
     catch (const exception &err)
