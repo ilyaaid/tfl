@@ -13,6 +13,6 @@ public:
     GlushkovAutomat (Node* source_tree);
     Node* getSourceTree();
     void linearizeTree();
-    set create_lambda_set();
+    set<int> create_lambda_set();
 
 };
