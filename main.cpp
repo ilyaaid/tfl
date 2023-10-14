@@ -13,7 +13,7 @@ int main(int, char **)
     try
     {
         Node *root = parser.parse(regExpr, "abcde");
-        root->ssnf();
+        root = root->ssnf();
         cout << "done!" << endl;
     }
     catch (const exception &err)
