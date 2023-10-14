@@ -56,5 +56,5 @@ private:
     char op_;
     string letter_;
     vector<Node *> children_;
-    Node *parent_ = nullptr;
+    Node *parent_;
 };
