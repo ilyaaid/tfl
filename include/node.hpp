@@ -39,8 +39,10 @@ public:
 
     Node *simplifyTree();
 
-    void ss();
-    void ssnf();
+    bool checkEmptiness();
+
+    Node *ss();
+    Node *ssnf();
 
 private:
     char op_;

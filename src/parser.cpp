@@ -113,5 +113,6 @@ Node *RegExprParser::parse(const string &regexpr, const string &alphabet)
     {
         root = root->getParent();
     }
+    root = root->simplifyTree();
     return root;
 }

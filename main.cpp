@@ -13,7 +13,6 @@ int main(int, char **)
     try
     {
         Node *root = parser.parse(regExpr, "abcde");
-        root = root->simplifyTree();
         root->ssnf();
         cout << "done!" << endl;
     }
