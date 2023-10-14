@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <iostream>
 
 using namespace std;
 
@@ -9,6 +10,9 @@ struct ops {
     static const char OR = '|';
     static const char STAR = '*';
     static const char LETTER = 'c';
+    static const char EPS = '?';
+    static const char EMPTY = ' ';
+    
 };
 
 struct terms {
@@ -22,7 +26,7 @@ class Node
 {
 public:
     Node(char op);
-    Node(char op, char letter);
+    Node(char op, string letter);
 
 public:
     Node *getRightChild();
@@ -31,12 +35,17 @@ public:
     void setParent(Node* parent);
     void replaceChild(Node* from, Node* to);
     char getOp();
+    void setOp(char op);
+    string getLetter();
+    void setLetter(string letter);
+    Node* simplifyTree();
+    void removeChild(Node* child);
     vector<Node*> getChildren();
     Node* getParent();
 
 private:
     char op_;
-    char letter_;
+    string letter_;
     vector<Node *> children_;
     Node* parent_ = nullptr;
 };

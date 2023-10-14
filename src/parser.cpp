@@ -36,7 +36,9 @@ Node *RegExprParser::parse(const string &regexpr, const string &alphabet)
     {
         if (isInAlpabet(regexpr_[i]))
         {
-            Node *node = new Node(ops::LETTER, regexpr_[i]);
+            string str;
+            str.push_back(regexpr_[i]);
+            Node *node = new Node(ops::LETTER, str);
             root->addChild(node);
             node->setParent(root);
             continue;
