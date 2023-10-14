@@ -4,14 +4,16 @@
 
 using namespace std;
 
-struct ops {
+struct ops
+{
     static const char CONCAT = '.';
     static const char OR = '|';
     static const char STAR = '*';
     static const char LETTER = 'c';
 };
 
-struct terms {
+struct terms
+{
     static const char OR = '|';
     static const char STAR = '*';
     static const char L_BR = '(';
@@ -26,20 +28,23 @@ public:
 
 public:
     Node *getRightChild();
-    void setRightChild(Node* node);
+    void setRightChild(Node *node);
     void addChild(Node *child);
-    void setParent(Node* parent);
-    void replaceChild(Node* from, Node* to);
-    void insertChildAfter(Node* left, Node* child);
-    void removeChild(Node* child);
+    void setParent(Node *parent);
+    void replaceChild(Node *from, Node *to);
+    void removeChild(Node *child);
     char getOp();
-    vector<Node*> getChildren();
-    Node* getParent();
-    Node* simplifyTree();
+    vector<Node *> getChildren();
+    Node *getParent();
+
+    Node *simplifyTree();
+
+    void ss();
+    void ssnf();
 
 private:
     char op_;
     char letter_;
     vector<Node *> children_;
-    Node* parent_ = nullptr;
+    Node *parent_ = nullptr;
 };

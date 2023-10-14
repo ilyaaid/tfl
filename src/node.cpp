@@ -6,21 +6,23 @@ Node::Node(char op) : op_(op)
 {
 }
 
-Node::Node(char op, char letter): op_(op), letter_(letter)
+Node::Node(char op, char letter) : op_(op), letter_(letter)
 {
 }
 
 Node *Node::getRightChild()
 {
-    if (children_.size() >= 1) {
+    if (children_.size() >= 1)
+    {
         return children_[children_.size() - 1];
     }
     return nullptr;
 }
 
-void Node::setRightChild(Node* node)
+void Node::setRightChild(Node *node)
 {
-    if (children_.size() >= 1) {
+    if (children_.size() >= 1)
+    {
         children_[children_.size() - 1] = node;
     }
 }
@@ -37,16 +39,13 @@ void Node::setParent(Node *parent)
 
 void Node::replaceChild(Node *from, Node *to)
 {
-    for (int i = 0; i < children_.size(); ++i) {
-        if (from == children_[i]) {
+    for (int i = 0; i < children_.size(); ++i)
+    {
+        if (from == children_[i])
+        {
             children_[i] = to;
         }
     }
-}
-
-void Node::insertChildAfter(Node *left, Node *child)
-{
-    children_.insert(find(children_.begin(), children_.end(), left), child);
 }
 
 void Node::removeChild(Node *child)
@@ -69,39 +68,103 @@ Node *Node::getParent()
     return parent_;
 }
 
-Node* Node::simplifyTree()
+Node *Node::simplifyTree()
 {
-    if (op_ == ops::LETTER) {
+    if (op_ == ops::LETTER)
+    {
         return this;
     }
-    if (op_ == ops::STAR) {
+    if (op_ == ops::STAR)
+    {
         children_[0] = children_[0]->simplifyTree();
         return this;
     }
 
     // ops::CONCAT || ops::OR
-    for (int i = 0; i < children_.size(); ++i) {
+    for (int i = 0; i < children_.size(); ++i)
+    {
         children_[i] = children_[i]->simplifyTree();
     }
-    for (int i = 0; i < children_.size(); ++i) {
-        Node* ch = children_[i];
-        if (op_ == ch->getOp()) {
-            vector<Node*> ch_children = ch->getChildren();
+    for (int i = 0; i < children_.size(); ++i)
+    {
+        Node *ch = children_[i];
+        if (op_ == ch->getOp())
+        {
+            vector<Node *> ch_children = ch->getChildren();
             children_.insert(find(children_.begin(), children_.end(), ch), ch_children.begin(), ch_children.end());
-            for (int i = 0; i < ch_children.size(); ++i) {
+            for (int i = 0; i < ch_children.size(); ++i)
+            {
                 ch_children[i]->setParent(this);
             }
             removeChild(ch);
         }
     }
-    if (children_.size() == 1) {
-        Node* new_root = children_[0];
-        if (parent_) {
+    if (children_.size() == 1)
+    {
+        Node *new_root = children_[0];
+        if (parent_)
+        {
             parent_->replaceChild(this, new_root);
+            new_root->setParent(parent_);
         }
         children_.clear();
         delete this;
         return new_root;
     }
     return this;
+}
+
+void Node::ssnf()
+{
+    if (op_ == ops::LETTER)
+    {
+        return;
+    }
+    if (op_ == ops::CONCAT || op_ == ops::OR)
+    {
+        for (auto ch : children_)
+        {
+            ch->ssnf();
+        }
+        return;
+    }
+    if (op_ == ops::STAR)
+    {
+        children_[0]->ss();
+    }
+}
+
+void Node::ss()
+{
+    if (op_ == ops::LETTER)
+    {
+        return;
+    }
+    if (op_ == ops::OR)
+    {
+        for (auto ch : children_)
+        {
+            ch->ss();
+        }
+        return;
+    }
+    if (op_ == ops::CONCAT)
+    {
+        for (auto ch : children_)
+        {
+            ch->ssnf();
+        }
+        return;
+    }
+    if (op_ == ops::STAR)
+    {
+        children_[0]->ss();
+        if (parent_)
+        {
+            parent_->replaceChild(this, children_[0]);
+            children_[0]->setParent(parent_);
+        }
+        children_.clear();
+        delete this;
+    }
 }
