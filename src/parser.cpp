@@ -82,8 +82,9 @@ Node *RegExprParser::parse(const string &regexpr, const string &alphabet)
         }
         case terms::R_BR:
         {
-            Node* root_par = root->getParent();
-            while (root_par->getOp() != ops::CONCAT) {
+            Node *root_par = root->getParent();
+            while (root_par->getOp() != ops::CONCAT)
+            {
                 root_par = root_par->getParent();
             }
             root = root_par;
@@ -96,6 +97,6 @@ Node *RegExprParser::parse(const string &regexpr, const string &alphabet)
     {
         root = root->getParent();
     }
-    
+
     return root;
 }

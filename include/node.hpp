@@ -44,14 +44,14 @@ public:
     string getString();
 
     // -------------------simplify
-    
-    Node* simple();
+
+    Node *simple();
 
     Node *simplifyTree();
 
     bool checkEmptiness();
 
-    Node* aci();
+    Node *aci();
 
     Node *ss();
     Node *ssnf();

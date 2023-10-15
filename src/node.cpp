@@ -77,30 +77,37 @@ Node *Node::getParent()
 
 string Node::getString()
 {
-    if (op_ == ops::LETTER) {
+    if (op_ == ops::LETTER)
+    {
         string tmp_str = "";
         tmp_str.push_back(letter_);
         return tmp_str;
     }
-    if (op_ == ops::STAR) {
+    if (op_ == ops::STAR)
+    {
         string tmp_str = children_[0]->getString();
         tmp_str.push_back('*');
         return tmp_str;
     }
-    if (op_ == ops::CONCAT) {
+    if (op_ == ops::CONCAT)
+    {
         string tmp_str = "(";
-        for (auto ch : children_) {
+        for (auto ch : children_)
+        {
             tmp_str += ch->getString();
         }
         tmp_str += ")";
         return tmp_str;
     }
-    if (op_ == ops::OR) {
+    if (op_ == ops::OR)
+    {
         string tmp_str = "(";
-        for (auto ch : children_) {
+        for (auto ch : children_)
+        {
             tmp_str += ch->getString() + "|";
         }
-        if (tmp_str.back() == '|') {
+        if (tmp_str.back() == '|')
+        {
             tmp_str.pop_back();
         }
         tmp_str += ")";
@@ -109,12 +116,11 @@ string Node::getString()
     return "";
 }
 
-
 //-------------------simplify----------------------
 
 Node *Node::simple()
 {
-    Node* root = simplifyTree();
+    Node *root = simplifyTree();
     root = root->ssnf();
     root = root->simplifyTree();
     root = root->aci();
