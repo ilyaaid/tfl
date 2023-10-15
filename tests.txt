@@ -29,3 +29,5 @@ ssnf:
 dstr:
 (a|b)b|(a|b)a
 (a|b)bc|(a|b)ac
+(a|b)bc|(a|b)ac|(a|b)bc|(a|b)ac
+(bc)*|bc

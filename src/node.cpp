@@ -137,8 +137,6 @@ Node *Node::simple()
     root = root->simplifyTree();
     root = root->dstr();
     root = root->simplifyTree();
-    root = root->aci();
-    root = root->simplifyTree();
     return root;
 }
 
