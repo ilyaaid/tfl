@@ -41,8 +41,6 @@ public:
     void setOp(char op);
     string getLetter();
     void setLetter(string letter);
-    
-    void removeChild(Node* child);
     vector<Node*> getChildren();
     Node* getParent();
 

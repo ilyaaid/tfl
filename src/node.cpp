@@ -52,10 +52,6 @@ void Node::replaceChild(Node *from, Node *to)
     }
 }
 
-void Node::removeChild(Node *child)
-{
-    children_.erase(find(children_.begin(), children_.end(), child));
-}
 
 char Node::getOp()
 {

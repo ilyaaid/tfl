@@ -12,3 +12,14 @@ ssnf:
 ((abc)*|(cde)*)*
 (abc(cde)*)*
 ((abc)*(cde)*)*
+
+lambda_set:
+(a*|b)
+(a*|b*)
+(a*|b*)|a
+(ab*)|(a*b)
+(a(ab)*)*|(ba)*
+(a(ab)*)*
+(ba)*
+(a|(ab))*b
+(ba|b)aa(a|ab)*
