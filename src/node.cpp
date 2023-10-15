@@ -1,4 +1,8 @@
+#include <iostream>
+#include <algorithm>
 #include "node.hpp"
+
+using namespace std;
 
 #include <algorithm>
 
@@ -6,7 +10,7 @@ Node::Node(char op) : op_(op)
 {
 }
 
-Node::Node(char op, char letter) : op_(op), letter_(letter)
+Node::Node(char op, string letter) : op_(op), letter_(letter)
 {
 }
 
@@ -58,10 +62,6 @@ void Node::replaceChild(Node *from, Node *to)
     }
 }
 
-void Node::removeChild(Node *child)
-{
-    children_.erase(find(children_.begin(), children_.end(), child));
-}
 
 void Node::clearChildren()
 {
@@ -71,6 +71,10 @@ void Node::clearChildren()
 char Node::getOp()
 {
     return op_;
+}
+
+string Node::getLetter(){
+    return letter_;
 }
 
 vector<Node *> Node::getChildren()
@@ -83,14 +87,26 @@ Node *Node::getParent()
     return parent_;
 }
 
+void Node::setOp(char op){
+    op_ = op;
+}
+
+void Node::setLetter(string letter){
+    letter_ = letter;
+}
+
+void Node::removeChild(Node *child)
+{
+    children_.erase(find(children_.begin(), children_.end(), child));
+}
+
 //--------------------------------------------------
 
 string Node::getString()
 {
     if (op_ == ops::LETTER)
     {
-        string tmp_str = "";
-        tmp_str.push_back(letter_);
+        string tmp_str = letter_;
         return tmp_str;
     }
     if (op_ == ops::STAR)

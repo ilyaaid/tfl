@@ -31,3 +31,14 @@ dstr:
 (a|b)bc|(a|b)ac
 (a|b)bc|(a|b)ac|(a|b)bc|(a|b)ac
 (bc)*|bc
+
+lambda_set:
+(a*|b)
+(a*|b*)
+(a*|b*)|a
+(ab*)|(a*b)
+(a(ab)*)*|(ba)*  // из вики
+(a(ab)*)*
+(ba)*
+(a|(ab))*b
+(ba|b)aa(a|ab)*  // из презы 

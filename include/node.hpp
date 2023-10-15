@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -11,6 +12,9 @@ struct ops
     static const char OR = '|';
     static const char STAR = '*';
     static const char LETTER = 'c';
+    static const char EPS = '?';
+    static const char EMPTY = ' ';
+    
 };
 
 struct terms
@@ -25,7 +29,7 @@ class Node
 {
 public:
     Node(char op);
-    Node(char op, char letter);
+    Node(char op, string letter);
 
 public:
     void setParent(Node *parent);
@@ -36,17 +40,12 @@ public:
     void addChild(Node *child);
     void replaceChild(Node *from, Node *to);
     void removeChild(Node *child);
-    void clearChildren();
-    vector<Node *> getChildren();
     char getOp();
-
-    //-------------------------
-
-    string getString();
-
-    // -------------------simplify
-
-    Node *simple();
+    void setOp(char op);
+    string getLetter();
+    void setLetter(string letter);
+    vector<Node*> getChildren();
+    void clearChildren();
 
     Node *simplifyTree();
 
@@ -58,9 +57,14 @@ public:
     Node *ss();
     Node *ssnf();
 
+    Node* simple();
+
+    string getString();
+
+
 private:
     char op_;
-    char letter_;
+    string letter_;
     vector<Node *> children_;
-    Node *parent_ = nullptr;
+    Node *parent_;
 };
