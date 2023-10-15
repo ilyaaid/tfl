@@ -52,6 +52,7 @@ public:
     bool checkEmptiness();
 
     Node *aci();
+    Node* dstr();
 
     Node *ss();
     Node *ssnf();

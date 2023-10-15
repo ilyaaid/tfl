@@ -16,9 +16,9 @@ Node *Node::aci()
     }
     if (op_ == ops::CONCAT)
     {
-        for (auto ch : children_)
+        for (int i = 0; i < children_.size(); ++i)
         {
-            ch = ch->aci();
+            children_[i] = children_[i]->aci();
         }
         return this;
     }
@@ -26,11 +26,11 @@ Node *Node::aci()
     {
         map<string, Node *> mp_str_to_node;
         multiset<Node *> extra_nodes;
-        for (auto ch : children_)
+        for (int i = 0; i < children_.size(); ++i)
         {
-            ch = ch->aci();
-            mp_str_to_node[ch->getString()] = ch;
-            extra_nodes.insert(ch);
+            children_[i] = children_[i]->aci();
+            mp_str_to_node[children_[i]->getString()] = children_[i];
+            extra_nodes.insert(children_[i]);
         }
         children_.clear();
         for (auto pair : mp_str_to_node)

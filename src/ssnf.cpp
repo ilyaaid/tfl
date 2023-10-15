@@ -43,9 +43,9 @@ Node *Node::ssnf()
     }
     if (op_ == ops::CONCAT || op_ == ops::OR)
     {
-        for (auto ch : children_)
+        for (int i = 0; i < children_.size(); ++i)
         {
-            ch = ch->ssnf();
+            children_[i] = children_[i]->ssnf();
         }
         return this;
     }
@@ -65,9 +65,9 @@ Node *Node::ss()
     }
     if (op_ == ops::OR)
     {
-        for (auto ch : children_)
+        for (int i = 0; i < children_.size(); ++i)
         {
-            ch = ch->ss();
+            children_[i] = children_[i]->ss();
         }
         return this;
     }
@@ -76,11 +76,11 @@ Node *Node::ss()
         if (checkEmptiness())
         {
             Node *new_or = new Node(ops::OR);
-            for (auto ch : children_)
+            for (int i = 0; i < children_.size(); ++i)
             {
-                ch = ch->ss();
-                new_or->addChild(ch);
-                ch->setParent(new_or);
+                children_[i] = children_[i]->ss();
+                new_or->addChild(children_[i]);
+                children_[i]->setParent(new_or);
             }
             if (parent_)
             {
@@ -91,9 +91,9 @@ Node *Node::ss()
             delete this;
             return new_or;
         }
-        for (auto ch : children_)
+        for (int i = 0; i < children_.size(); ++i)
         {
-            ch = ch->ssnf();
+            children_[i] = children_[i]->ssnf();
         }
 
         return this;
