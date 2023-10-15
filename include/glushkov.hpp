@@ -4,6 +4,8 @@
 
 using namespace std;
 
+
+
 struct pair_of_vertices{
     string _x,_y;
     pair_of_vertices(string x, string y):_x(x), _y(y){}

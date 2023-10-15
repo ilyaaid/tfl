@@ -23,7 +23,7 @@ set<pair_of_vertices, Cmp> pair_multiply(set<string> set1, set<string> set2){
             res.insert(pair_of_vertices(elem1, elem2));
         }
     }
-    return set<pair_of_vertices, Cmp>{};
+    return res;
 }
 
 
