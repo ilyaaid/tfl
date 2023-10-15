@@ -5,7 +5,7 @@ include(CTest)
 enable_testing()
 
 include_directories(include)
-add_executable(lab2 main.cpp src/parser.cpp src/node.cpp)
+add_executable(lab2 main.cpp src/parser.cpp src/node.cpp src/aci.cpp src/ssnf.cpp src/dstr.cpp)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})

@@ -87,30 +87,6 @@ Node *RegExprParser::parse(const string &regexpr, const string &alphabet)
                 root_par = root_par->getParent();
             }
             root = root_par;
-            
-            //----------------------------------
-            // Node *root_par = root->getParent();
-            // if (!root_par)
-            // {
-            //     throw runtime_error("wrong symbol " + terms::R_BR);
-            // }
-            // root = root_par;
-            // if (root->getOp() == ops::CONCAT)
-            // {
-            //     break;
-            // }
-
-            // Node *new_conc = new Node(ops::CONCAT);
-            // new_conc->addChild(root);
-            // root_par = root->getParent();
-            // root->setParent(new_conc);
-
-            // if (root_par)
-            // {
-            //     root_par->setRightChild(new_conc);
-            // }
-            // new_conc->setParent(root_par);
-            // root = new_conc;
             break;
         }
         }

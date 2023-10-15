@@ -1,3 +1,4 @@
+parser:
 (a|b*)*(a)
 (a|b*)*
 (a|(b)*)*
@@ -12,6 +13,8 @@ ab|(ab*(ab)*|cb)|ab
 ((a|(b)*)*|c)|a*(b*|c)b*(a)
 
 aci:
+(abc|bc|bc)|(a|c|c)
+(abc|(bc|a|bc)*|bc)|(a|c|c)
 (b|a|b|a)*
 ((a*b*)*|b*(a*b*))
 ((a*b*)*|b*(a*b*)*)
