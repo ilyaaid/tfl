@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <string>
 
 using namespace std;
 
@@ -27,19 +28,30 @@ public:
     Node(char op, char letter);
 
 public:
+    void setParent(Node *parent);
+    Node *getParent();
     Node *getRightChild();
     void setRightChild(Node *node);
     void addChild(Node *child);
-    void setParent(Node *parent);
     void replaceChild(Node *from, Node *to);
     void removeChild(Node *child);
-    char getOp();
+    void clearChildren();
     vector<Node *> getChildren();
-    Node *getParent();
+    char getOp();
+
+    //-------------------------
+
+    string getString();
+
+    // -------------------simplify
+    
+    Node* simple();
 
     Node *simplifyTree();
 
     bool checkEmptiness();
+
+    Node* aci();
 
     Node *ss();
     Node *ssnf();

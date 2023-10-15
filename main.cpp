@@ -12,8 +12,9 @@ int main(int, char **)
     RegExprParser parser;
     try
     {
-        Node *root = parser.parse(regExpr, "abcde");
-        root = root->ssnf();
+        Node *root = parser.parse(regExpr, "abcde?");
+        root = root->simple();
+        cout << root->getString() << endl;
         cout << "done!" << endl;
     }
     catch (const exception &err)

@@ -1,11 +1,21 @@
 (a|b*)*(a)
-(a|b*)
+(a|b*)*
+(a|(b)*)*
 (a)(b)
+a|b|c
+(a|b|c)*
 a|(ab*)*
+a|(a*b*)*
+(a|(a*b*)*)*
 abc|(ab)*(c)|b
-ab|(ab*(ab)* | cb)|ab
+ab|(ab*(ab)*|cb)|ab
 ((a|(b)*)*|c)|a*(b*|c)b*(a)
 
+aci:
+(b|a|b|a)*
+((a*b*)*|b*(a*b*))
+((a*b*)*|b*(a*b*)*)
+((a*b*)*|b*|(a*b*)*)
 
 ssnf:
 (abc)***

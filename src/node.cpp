@@ -1,6 +1,8 @@
 #include "node.hpp"
 
 #include <algorithm>
+#include <map>
+#include <set>
 
 Node::Node(char op) : op_(op)
 {
@@ -53,6 +55,11 @@ void Node::removeChild(Node *child)
     children_.erase(find(children_.begin(), children_.end(), child));
 }
 
+void Node::clearChildren()
+{
+    children_.clear();
+}
+
 char Node::getOp()
 {
     return op_;
@@ -66,6 +73,54 @@ vector<Node *> Node::getChildren()
 Node *Node::getParent()
 {
     return parent_;
+}
+
+//--------------------------------------------------
+
+string Node::getString()
+{
+    if (op_ == ops::LETTER) {
+        string tmp_str = "";
+        tmp_str.push_back(letter_);
+        return tmp_str;
+    }
+    if (op_ == ops::STAR) {
+        string tmp_str = children_[0]->getString();
+        tmp_str.push_back('*');
+        return tmp_str;
+    }
+    if (op_ == ops::CONCAT) {
+        string tmp_str = "(";
+        for (auto ch : children_) {
+            tmp_str += ch->getString();
+        }
+        tmp_str += ")";
+        return tmp_str;
+    }
+    if (op_ == ops::OR) {
+        string tmp_str = "(";
+        for (auto ch : children_) {
+            tmp_str += ch->getString() + "|";
+        }
+        if (tmp_str.back() == '|') {
+            tmp_str.pop_back();
+        }
+        tmp_str += ")";
+        return tmp_str;
+    }
+}
+
+
+//-------------------simplify----------------------
+
+Node *Node::simple()
+{
+    Node* root = simplifyTree();
+    root = root->ssnf();
+    root = root->simplifyTree();
+    root = root->aci();
+    root = root->simplifyTree();
+    return root;
 }
 
 Node *Node::simplifyTree()
@@ -149,6 +204,46 @@ bool Node::checkEmptiness()
     return false;
 }
 
+Node *Node::aci()
+{
+    if (op_ == ops::LETTER) {
+        return this;
+    }
+    if (op_ == ops::STAR) {
+        children_[0] = children_[0]->aci();
+        return this;
+    }
+    if (op_ == ops::CONCAT) {
+        for (auto ch : children_) {
+            ch = ch->aci();
+        }
+        return this;
+    }
+    if (op_ == ops::OR) {
+        map<string, Node*> mp_str_to_node;
+        multiset<Node*> extra_nodes;
+        for (auto ch : children_) {
+            ch = ch->aci();
+            mp_str_to_node[ch->getString()] = ch;
+            extra_nodes.insert(ch);
+        }
+        children_.clear();
+        for (auto pair : mp_str_to_node) {
+            children_.push_back(pair.second);
+            auto it = extra_nodes.find(pair.second);
+            extra_nodes.erase(it);
+        }
+
+        // удаление из динамической памяти лишние аргументы альтернативы
+        for (auto node : extra_nodes) {
+            node->clearChildren();
+            delete node;
+        }
+        return this;
+    }
+    return this;
+}
+
 Node *Node::ssnf()
 {
     if (op_ == ops::LETTER)
@@ -215,7 +310,7 @@ Node *Node::ss()
     if (op_ == ops::STAR)
     {
         children_[0]->ss();
-        Node* new_root = children_[0];
+        Node *new_root = children_[0];
         if (parent_)
         {
             parent_->replaceChild(this, new_root);
