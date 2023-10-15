@@ -10,13 +10,23 @@ Node::Node(char op, char letter) : op_(op), letter_(letter)
 {
 }
 
-Node *Node::getRightChild()
+Node *Node::getLeftChild(int i)
 {
-    if (children_.size() >= 1)
+    if (i >= children_.size())
     {
-        return children_[children_.size() - 1];
+        return nullptr;
     }
-    return nullptr;
+    return children_[i];
+}
+
+Node *Node::getRightChild(int i)
+{
+    int ind = children_.size() - (i + 1);
+    if (ind < 0)
+    {
+        return nullptr;
+    }
+    return children_[ind];
 }
 
 void Node::setRightChild(Node *node)
@@ -122,6 +132,10 @@ Node *Node::simple()
 {
     Node *root = simplifyTree();
     root = root->ssnf();
+    root = root->simplifyTree();
+    root = root->aci();
+    root = root->simplifyTree();
+    root = root->dstr();
     root = root->simplifyTree();
     root = root->aci();
     root = root->simplifyTree();

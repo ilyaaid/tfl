@@ -30,7 +30,8 @@ public:
 public:
     void setParent(Node *parent);
     Node *getParent();
-    Node *getRightChild();
+    Node *getLeftChild(int i);
+    Node *getRightChild(int i);
     void setRightChild(Node *node);
     void addChild(Node *child);
     void replaceChild(Node *from, Node *to);
@@ -52,7 +53,7 @@ public:
     bool checkEmptiness();
 
     Node *aci();
-    Node* dstr();
+    Node *dstr();
 
     Node *ss();
     Node *ssnf();

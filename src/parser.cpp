@@ -54,8 +54,8 @@ Node *RegExprParser::parse(const string &regexpr, const string &alphabet)
         case terms::STAR:
         {
             Node *new_star = new Node(ops::STAR);
-            new_star->addChild(root->getRightChild());
-            root->getRightChild()->setParent(new_star);
+            new_star->addChild(root->getRightChild(0));
+            root->getRightChild(0)->setParent(new_star);
             root->setRightChild(new_star);
             new_star->setParent(root);
             break;

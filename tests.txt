@@ -25,3 +25,7 @@ ssnf:
 ((abc)*|(cde)*)*
 (abc(cde)*)*
 ((abc)*(cde)*)*
+
+dstr:
+(a|b)b|(a|b)a
+(a|b)bc|(a|b)ac
