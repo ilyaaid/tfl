@@ -44,6 +44,8 @@ int main(int, char **)
         for (auto elem: res_words){
             if (regex_match(elem, word_regex)){
                 cout << "ok" << endl;
+            } else {
+                cout << "fail: " << elem << endl; 
             }
             //замеряем время на новой регулярке
             clock_t start, end;
