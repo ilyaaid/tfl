@@ -2,6 +2,8 @@
 #include <set>
 #include <algorithm>
 #include <vector>
+#include <unordered_map>
+#include <queue>
 #include "glushkov.hpp"
 
 using namespace std;
@@ -183,25 +185,6 @@ set<string>GlushkovAutomat::getDSet(){
     return _d_set;
 }
 
-// set<pair_of_vertices, Cmp> find_f_set(Node* node){
-//     if (node -> getOp() == ops::OR){
-//         set<pair_of_vertices, Cmp> res;
-//         for (int i = 0; i < node->getChildren().size(); i++){
-//             res = pair_sets_union(res, find_f_set(node->getChildren()[i]));
-//         }
-//     }
-//     if (node -> getOp() == ops::CONCAT){
-//         set<pair_of_vertices, Cmp> f_res = find_f_set(node->getChildren()[0]);
-//         set<string> d_res = find_d_set(node -> getChildren()[0], node -> getChildren()[0] -> getChildren());
-//         for (int i = 1; i < node->getChildren().size(); i++){
-//             f_res = pair_sets_union(f_res, find_f_set(node->getChildren()[i]));
-//             f_res = pair_sets_union(f_res, pair_multiply(d_res, find_p_set(node -> getChildren()[i], node -> getChildren()[i] -> getChildren() )));
-//         }
-//     }
-//     if (node -> getOp() == ops::STAR){
-
-//     }
-// }
 
 set<pair_of_vertices, Cmp>  find_f_set(Node* parent,  vector<Node*>children){
     if (parent -> getOp() == ops::OR){
@@ -245,6 +228,75 @@ void GlushkovAutomat::findFSet(){
 set<pair_of_vertices, Cmp>GlushkovAutomat::getFSet(){
     return _f_set;
 }
+
+void GlushkovAutomat::make_automat(){
+    for (auto elem: _p_set){
+        automat["start_elem"].push_back(elem);
+    }
+    for (auto elem: _f_set){
+        automat[elem._x].push_back(elem._y);
+    }
+}
+
+
+
+vector<Path> GlushkovAutomat::create_words(){
+    vector<Path> words;
+    queue<Path> q;
+    for (auto elem: automat["start_elem"]){
+        Path a;
+        a.vec.push_back(elem);
+        q.push(a);
+    }
+    while (!q.empty()){
+        Path front = q.front();
+        q.pop();
+        for (auto elem: automat[front.vec.back()]){
+            Path x = front;
+            if (count(automat[elem].begin(), automat[elem].end(), elem) != 0){
+                x.ciclic = true;
+                x.index = x.vec.size();
+            }
+            x.vec.push_back(elem);
+            if (_d_set.find(elem) != _d_set.end()){
+                words.push_back(x);
+                //continue;
+            }
+            if (count(x.vec.begin(), x.vec.end(), elem) == 0){
+                q.push(x);
+            }
+        }
+    }
+    return words;
+}
+
+string GlushkovAutomat::pumping(char letter, int n){
+    string res;
+    for (int i = 0; i < n; i++){
+        res.push_back(letter);
+    }
+    return res;
+}
+
+vector<string> GlushkovAutomat::make_strings(vector<Path> vect){
+    vector <string> res;
+    for (auto elem: vect){
+        string str;
+        for (int i = 0; i < elem.vec.size(); i++){
+            if (elem.ciclic == true && elem.index == i){
+                str += pumping(elem.vec[i][0], 100);
+            }else{
+                str.push_back(elem.vec[i][0]);
+            }
+        }
+        res.push_back(str);
+    }
+    return res;
+}
+
+
+
+
 
 
 

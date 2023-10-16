@@ -1,36 +1,68 @@
 #include "parser.hpp"
 #include "glushkov.hpp"
+#include <ctime> 
 
 #include <iostream>
 #include <exception>
 #include <set>
 #include <algorithm>
+#include <regex>
 
 using namespace std;
 
 
 int main(int, char **)
 {   
+    // string str = "aaaabb";
+    // regex word_regex ("a*bbb");
+    // cout << regex_match(str, word_regex);
     string regExpr = "";
     getline(cin, regExpr);
     RegExprParser parser;
     try
     {
         Node *root = parser.parse(regExpr, "abcde?");
-        // root = root->simple();
-        // cout << root->getString() << endl;
+        //cout << root->getString() << endl;
+        //упрощение регулярки
+        root = root->simple();
+        string newRegExpr = root -> getString();
+        regex word_regex (regExpr);
+        regex word_regex_new (newRegExpr);
+        cout << regExpr << endl;
+        cout << newRegExpr << endl;
+        //построение автомата
         GlushkovAutomat automat(root);
         automat.linearizeTree();
         automat.findPSet();
         automat.findDSet();
         automat.findFSet();
-        set<string> set2 = automat.getPSet();
-        set<string> set3 = automat.getDSet();
-        set<pair_of_vertices, Cmp> set4 = automat.getFSet();
-        root = automat.getSourceTree();   
+        automat.make_automat();
+        //построение слов для проверки 
+        vector<Path> words = automat.create_words();
+        vector<string> res_words = automat.make_strings(words);
+        //цикл на проверку строк 
+        for (auto elem: res_words){
+            if (regex_match(elem, word_regex)){
+                cout << "ok" << endl;
+            }
+            //замеряем время на новой регулярке
+            clock_t start, end;
+            double seconds;
+            start = clock();
+            regex_match(elem, word_regex_new);
+            end = clock();
+            seconds = (double)(end - start) / CLOCKS_PER_SEC;
+            printf("new regex: %f seconds\n", seconds);
+            //замеряем время на старой регулярке
+            start = clock();
+            regex_match(elem, word_regex);
+            end = clock();
+            seconds = (double)(end - start) / CLOCKS_PER_SEC;
+            printf("old regex: %f seconds\n", seconds);
+            
+        }
+        //automat.print_automat(); 
         cout << "done!" << endl;
-        // root = root->simplifyTree();
-        // root->ssnf();
     }
     catch (const exception &err)
     {
