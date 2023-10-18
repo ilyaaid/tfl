@@ -28,8 +28,8 @@ int main(int, char **)
         string newRegExpr = root -> getString();
         regex word_regex (regExpr);
         regex word_regex_new (newRegExpr);
-        cout << regExpr << endl;
-        cout << newRegExpr << endl;
+        cout << "new regex: " << newRegExpr << endl;
+        cout << "old regex: " << regExpr << endl;
         //построение автомата
         GlushkovAutomat automat(root);
         automat.linearizeTree();
