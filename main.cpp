@@ -19,9 +19,10 @@ int main(int, char **)
     string regExpr = "";
     getline(cin, regExpr);
     RegExprParser parser;
+    Node* root = nullptr;
     try
     {
-        Node *root = parser.parse(regExpr, "abcde?");
+        root = parser.parse(regExpr, "abcde?");
         //cout << root->getString() << endl;
         //упрощение регулярки
         root = root->simple();
@@ -65,9 +66,13 @@ int main(int, char **)
         }
         //automat.print_automat(); 
         cout << "done!" << endl;
+        delete root;
     }
     catch (const exception &err)
     {
+        if (root) {
+            delete root;
+        }
         cout << err.what() << endl;
     }
     cout << endl;

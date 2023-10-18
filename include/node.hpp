@@ -30,6 +30,7 @@ class Node
 public:
     Node(char op);
     Node(char op, string letter);
+    ~Node();
 
 public:
     void setParent(Node *parent);

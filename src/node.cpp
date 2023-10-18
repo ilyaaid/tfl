@@ -14,6 +14,15 @@ Node::Node(char op, string letter) : op_(op), letter_(letter)
 {
 }
 
+Node::~Node()
+{
+    for (int i = 0; i < children_.size(); ++i) {
+        if (children_[i]) {
+            delete children_[i];
+        }
+    }
+}
+
 Node *Node::getLeftChild(int i)
 {
     if (i >= children_.size())
