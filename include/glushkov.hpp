@@ -8,7 +8,11 @@ using namespace std;
 struct Path{
     vector<string> vec;
     bool ciclic = false;
-    int index;
+    vector<int>cicle_indexes;
+    int count_len_path();
+    static inline int max_str_len = 500;
+    static inline int pump_len = 100;
+    string make_string();
 };
 
 struct pair_of_vertices{
@@ -52,8 +56,6 @@ public:
     set<pair_of_vertices, Cmp>getFSet();
     void make_automat();
     vector<Path> create_words();
-    string pumping(char letter, int n);
-    vector<string> make_strings(vector<Path> vect);
     // void print_automat();
 };
 

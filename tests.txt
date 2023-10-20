@@ -42,3 +42,6 @@ lambda_set:
 (ba)*
 (a|(ab))*b
 (ba|b)aa(a|ab)*  // из презы 
+
+fazz module:
+a(b*c)*  

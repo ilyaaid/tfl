@@ -238,61 +238,62 @@ void GlushkovAutomat::make_automat(){
     }
 }
 
+int Path::count_len_path(){
+    return vec.size() - cicle_indexes.size() + cicle_indexes.size() * pump_len;
+}
 
+string Path::make_string()
+{
+    string res = "";
+    for (int i = 0; i < vec.size(); i++){
+        if (ciclic == true && 
+        find(cicle_indexes.begin(), cicle_indexes.end(), i) != cicle_indexes.end()){
+            for (int j = 0; j < pump_len; j++){
+                res += vec[i][0];
+            }
+        }else{
+            res += vec[i][0];
+        }
+    }
+    return res;
+}
 
 vector<Path> GlushkovAutomat::create_words(){
+    int max_cnt_words = 200;
     vector<Path> words;
     queue<Path> q;
     for (auto elem: automat["start_elem"]){
         Path a;
         a.vec.push_back(elem);
+        if (count(automat[elem].begin(), automat[elem].end(), elem) != 0){
+            a.ciclic = true;
+            a.cicle_indexes.push_back(a.vec.size() - 1);
+        }
         q.push(a);
     }
     while (!q.empty()){
         Path front = q.front();
+        if (find(_d_set.begin(), _d_set.end(), front.vec.back()) != _d_set.end()){
+            words.push_back(front);
+            if (words.size() >= max_cnt_words) {
+                break;
+            }
+        }
         q.pop();
         for (auto elem: automat[front.vec.back()]){
-            Path x = front;
+            front.vec.push_back(elem);
             if (count(automat[elem].begin(), automat[elem].end(), elem) != 0){
-                x.ciclic = true;
-                x.index = x.vec.size();
+                front.ciclic = true;
+                front.cicle_indexes.push_back(front.vec.size() - 1);
             }
-            x.vec.push_back(elem);
-            if (_d_set.find(elem) != _d_set.end()){
-                words.push_back(x);
-                //continue;
-            }
-            if (count(x.vec.begin(), x.vec.end(), elem) == 0){
-                q.push(x);
+            if (front.count_len_path() <= front.max_str_len){
+                q.push(front);
             }
         }
     }
     return words;
 }
 
-string GlushkovAutomat::pumping(char letter, int n){
-    string res;
-    for (int i = 0; i < n; i++){
-        res.push_back(letter);
-    }
-    return res;
-}
-
-vector<string> GlushkovAutomat::make_strings(vector<Path> vect){
-    vector <string> res;
-    for (auto elem: vect){
-        string str;
-        for (int i = 0; i < elem.vec.size(); i++){
-            if (elem.ciclic == true && elem.index == i){
-                str += pumping(elem.vec[i][0], 100);
-            }else{
-                str.push_back(elem.vec[i][0]);
-            }
-        }
-        res.push_back(str);
-    }
-    return res;
-}
 
 
 

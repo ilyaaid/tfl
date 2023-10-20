@@ -40,25 +40,28 @@ int main(int, char **)
         automat.make_automat();
         //построение слов для проверки 
         vector<Path> words = automat.create_words();
-        vector<string> res_words = automat.make_strings(words);
         //цикл на проверку строк 
-        for (auto elem: res_words){
-            if (regex_match(elem, word_regex)){
+        cout << "cnt tests: " << words.size() << endl;
+        for (int i = 0; i < words.size(); ++i){
+            string str = words[i].make_string();
+            cout << "ind: " << i << endl;
+            // cout << "test string: " << str << endl;
+            if (regex_match(str, word_regex_new)){
                 cout << "ok" << endl;
             } else {
-                cout << "fail: " << elem << endl; 
+                cout << "fail: " << str << endl; 
             }
             //замеряем время на новой регулярке
             clock_t start, end;
             double seconds;
             start = clock();
-            regex_match(elem, word_regex_new);
+            regex_match(str, word_regex_new);
             end = clock();
             seconds = (double)(end - start) / CLOCKS_PER_SEC;
             printf("new regex: %f seconds\n", seconds);
             //замеряем время на старой регулярке
             start = clock();
-            regex_match(elem, word_regex);
+            regex_match(str, word_regex);
             end = clock();
             seconds = (double)(end - start) / CLOCKS_PER_SEC;
             printf("old regex: %f seconds\n", seconds);
