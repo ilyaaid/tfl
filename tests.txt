@@ -45,3 +45,7 @@ lambda_set:
 
 fazz module:
 a(b*c)*  
+
+----------------------
+old regex: ((cc)*|(e|a)*)*
+new regex: ((cc)|a|e)*

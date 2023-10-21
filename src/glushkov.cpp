@@ -238,6 +238,7 @@ void GlushkovAutomat::make_automat(){
     }
 }
 
+
 int Path::count_len_path(){
     return vec.size() - cicle_indexes.size() + cicle_indexes.size() * pump_len;
 }

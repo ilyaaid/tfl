@@ -5,6 +5,8 @@
 
 using namespace std;
 
+
+
 struct Path{
     vector<string> vec;
     bool ciclic = false;
