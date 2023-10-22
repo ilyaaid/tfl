@@ -49,3 +49,9 @@ a(b*c)*
 ----------------------
 old regex: ((cc)*|(e|a)*)*
 new regex: ((cc)|a|e)*
+
+----------------------
+
+old regex: (dd)*cac|a
+new regex: (((dd)*cac)|a)
+fail ddcddcac

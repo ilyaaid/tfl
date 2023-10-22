@@ -17,30 +17,30 @@ struct Path{
     string make_string();
 };
 
-struct pair_of_vertices{
-    string _x,_y;
-    pair_of_vertices(string x, string y):_x(x), _y(y){}
-};
+// struct pair_of_vertices{
+//     string _x,_y;
+//     pair_of_vertices(string x, string y):_x(x), _y(y){}
+// };
 
-class Cmp{
-    public:
-    bool operator()( const pair_of_vertices& pair1, const pair_of_vertices& pair2) const {
-        if (pair1._x < pair2._x){
-            return true;
-        }
-        if (pair1._y < pair2._y){
-            return true;
-        }
-        return false;
-    }
-};
+// class Cmp{
+//     public:
+//     bool operator()( const pair_of_vertices& pair1, const pair_of_vertices& pair2) const {
+//         if (pair1._x < pair2._x){
+//             return true;
+//         }
+//         if (pair1._y < pair2._y){
+//             return true;
+//         }
+//         return false;
+//     }
+// };
 
 class GlushkovAutomat{
 private:
     Node* _source_tree;
     set<string>_p_set;
     set<string>_d_set;
-    set<pair_of_vertices, Cmp>_f_set;
+    set<pair<string, string>>_f_set;
     unordered_map<string, vector<string>> automat;
 
 
@@ -55,7 +55,7 @@ public:
     void findDSet();
     set<string>getDSet();
     void findFSet();
-    set<pair_of_vertices, Cmp>getFSet();
+    set<pair<string, string>>getFSet();
     void make_automat();
     vector<Path> create_words();
     // void print_automat();

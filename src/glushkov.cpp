@@ -18,11 +18,11 @@ set<string>multiply_to_lambda(set<string> set1, bool lambda){
     }
 }
 
-set<pair_of_vertices, Cmp> pair_multiply(set<string> set1, set<string> set2){
-    set<pair_of_vertices, Cmp>res;
+set<pair<string, string>> pair_multiply(set<string> set1, set<string> set2){
+    set<pair<string, string>>res;
     for (auto elem1: set1){
         for (auto elem2: set2){
-            res.insert(pair_of_vertices(elem1, elem2));
+            res.insert({elem1, elem2});
         }
     }
     return res;
@@ -36,7 +36,7 @@ set<string> sets_union(set<string> set1, set<string> set2){
     return set2;
 }
 
-set<pair_of_vertices, Cmp> pair_sets_union(set<pair_of_vertices, Cmp> set1, set<pair_of_vertices, Cmp> set2){
+set<pair<string, string>> pair_sets_union(set<pair<string, string>> set1, set<pair<string, string>> set2){
     for (auto elem: set1){
         set2.insert(elem);
     }
@@ -186,7 +186,7 @@ set<string>GlushkovAutomat::getDSet(){
 }
 
 
-set<pair_of_vertices, Cmp>  find_f_set(Node* parent,  vector<Node*>children){
+set<pair<string, string>>  find_f_set(Node* parent,  vector<Node*>children){
     if (parent -> getOp() == ops::OR){
         Node* last_operand = children.back();
         if (children.size() == 1){
@@ -216,16 +216,16 @@ set<pair_of_vertices, Cmp>  find_f_set(Node* parent,  vector<Node*>children){
         find_p_set(last_operand, last_operand -> getChildren())));
     }
     if (parent->getOp() == ops::LETTER){
-        return set<pair_of_vertices, Cmp>{};
+        return set<pair<string, string>>{};
     }
-    return set<pair_of_vertices, Cmp>{};
+    return set<pair<string, string>>{};
 }
 
 void GlushkovAutomat::findFSet(){
     _f_set = find_f_set(_source_tree, _source_tree -> getChildren());
 }
 
-set<pair_of_vertices, Cmp>GlushkovAutomat::getFSet(){
+set<pair<string, string>> GlushkovAutomat::getFSet(){
     return _f_set;
 }
 
@@ -234,7 +234,7 @@ void GlushkovAutomat::make_automat(){
         automat["start_elem"].push_back(elem);
     }
     for (auto elem: _f_set){
-        automat[elem._x].push_back(elem._y);
+        automat[elem.first].push_back(elem.second);
     }
 }
 
@@ -282,6 +282,7 @@ vector<Path> GlushkovAutomat::create_words(){
         }
         q.pop();
         for (auto elem: automat[front.vec.back()]){
+            //здесь ошибка
             front.vec.push_back(elem);
             if (count(automat[elem].begin(), automat[elem].end(), elem) != 0){
                 front.ciclic = true;
@@ -290,6 +291,7 @@ vector<Path> GlushkovAutomat::create_words(){
             if (front.count_len_path() <= front.max_str_len){
                 q.push(front);
             }
+            front.vec.pop_back(); // new
         }
     }
     return words;
