@@ -50,6 +50,10 @@ a(b*c)*
 old regex: ((cc)*|(e|a)*)*
 new regex: ((cc)|a|e)*
 
+idx 9
+a3 c1 c2
+cicle_indexes 0 1
+
 ----------------------
 
 old regex: (dd)*cac|a

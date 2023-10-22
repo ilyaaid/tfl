@@ -275,7 +275,7 @@ vector<Path> GlushkovAutomat::create_words(){
     while (!q.empty()){
         Path front = q.front();
         if (find(_d_set.begin(), _d_set.end(), front.vec.back()) != _d_set.end()){
-            words.push_back(front);
+            words.push_back(front); 
             if (words.size() >= max_cnt_words) {
                 break;
             }
@@ -283,15 +283,16 @@ vector<Path> GlushkovAutomat::create_words(){
         q.pop();
         for (auto elem: automat[front.vec.back()]){
             //здесь ошибка
-            front.vec.push_back(elem);
+            Path x = front;
+            x.vec.push_back(elem);
             if (count(automat[elem].begin(), automat[elem].end(), elem) != 0){
-                front.ciclic = true;
-                front.cicle_indexes.push_back(front.vec.size() - 1);
+                x.ciclic = true;
+                x.cicle_indexes.push_back(x.vec.size() - 1);
             }
-            if (front.count_len_path() <= front.max_str_len){
-                q.push(front);
+            if (x.count_len_path() <= x.max_str_len){
+                q.push(x);
             }
-            front.vec.pop_back(); // new
+            //front.vec.pop_back(); // new
         }
     }
     return words;
