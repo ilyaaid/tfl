@@ -48,6 +48,7 @@ private:
 
 public:
     GlushkovAutomat (Node* source_tree);
+    void init();
     Node* getSourceTree();
     void linearizeTree();
     void findPSet();
