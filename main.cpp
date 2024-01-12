@@ -39,6 +39,12 @@ Grammar input_grammar()
     // string nterms;
     // getline(cin, nterms);
 
+    if (isProd) {
+        cout << "Введите n-ый шаг разбора, на котором надо отрисовать стек(0 - если отрисовывать стек не надо)" << endl;
+    }
+    int n = 0;
+    cin >> n;
+
     if (isProd)
     {
         cout << "В грамматике нетерминалы - [A-Z], остальные символы - терминалы(# - пустой символ)" << endl;
@@ -63,7 +69,11 @@ Grammar input_grammar()
         rules.push_back(rule);
     }
 
-    return Grammar(start, rules);
+    if (n == 0) { 
+        return Grammar(start, rules);
+    } else {
+        return Grammar(start, rules, n);
+    }
 }
 
 
@@ -72,6 +82,7 @@ Grammar input_grammar()
 Примеры ввода:
 1)
 acdccdd
+2
 A
 A=BDc
 A=a
@@ -110,6 +121,7 @@ F=(E)
 
 5)
 ab
+2
 S
 S=aSb
 S=#
@@ -117,6 +129,7 @@ S=ac
 
 6)
 (()a)
+1
 S
 S=(L)
 S=a
@@ -126,6 +139,7 @@ A=#
 
 7)
 ((a)a))
+1
 S
 S=(L)
 S=a
