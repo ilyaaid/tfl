@@ -133,6 +133,13 @@ L=SA
 A=)SA
 A=#
 
+8)
+aaaaa 
+165
+S
+S=aSS
+S=aS
+S=a
 
 */
 
