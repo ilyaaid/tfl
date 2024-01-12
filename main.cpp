@@ -7,7 +7,7 @@
 
 using namespace std;
 
-bool isProd = true;
+bool isProd = false;
 
 set<string> split_to_set(const string &s)
 {
@@ -135,11 +135,19 @@ A=#
 
 8)
 aaaaa 
-165
+4
 S
 S=aSS
 S=aS
 S=a
+
+9)
+aaa
+1
+S
+S=aSaaS
+S=aaS
+S=aa
 
 */
 

@@ -199,8 +199,11 @@ bool Grammar::checkWord(string word, string &message)
 
     int error_ind = 0;
     bool is_ok = false;
+
+    int it = 0;
     while (!cur_nodes.empty())
     {
+        it++;
         set<pair<Node *, int>> new_cur_nodes = cur_nodes;
         bool is_final = false;
         for (auto p_cur_node : cur_nodes)
@@ -220,8 +223,12 @@ bool Grammar::checkWord(string word, string &message)
                 {
                     new_cur_nodes.erase(p_cur_node);
                     int new_lenta_ind = p_cur_node.second + 1;
-                    new_cur_nodes.insert({cur_node->parent, new_lenta_ind});
-                    error_ind = max(error_ind, new_lenta_ind); // маскимальный достижимый индекс
+                    if (new_lenta_ind < word.size()) {
+                        new_cur_nodes.insert({cur_node->parent, new_lenta_ind});
+                        error_ind = max(error_ind, new_lenta_ind); // маскимальный достижимый индекс
+                    }
+                } else {
+                    new_cur_nodes.erase(p_cur_node);
                 }
             }
             else
