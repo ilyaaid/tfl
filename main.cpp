@@ -7,7 +7,7 @@
 
 using namespace std;
 
-bool isProd = false;
+bool isProd = true;
 
 set<string> split_to_set(const string &s)
 {
@@ -24,20 +24,6 @@ set<string> split_to_set(const string &s)
 Grammar input_grammar()
 {
     cin.ignore();
-
-    // if (isProd)
-    // {
-    //     cout << "Введите терминалы(через пробел):" << endl;
-    // }
-    // string terms;
-    // getline(cin, terms);
-
-    // if (isProd)
-    // {
-    //     cout << "Введите нетерминалы(через пробел):" << endl;
-    // }
-    // string nterms;
-    // getline(cin, nterms);
 
     if (isProd) {
         cout << "Введите n-ый шаг разбора, на котором надо отрисовать стек(0 - если отрисовывать стек не надо)" << endl;
