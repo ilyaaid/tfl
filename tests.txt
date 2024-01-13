@@ -1,0 +1,63 @@
+parser:
+(a|b*)*(a)
+(a|b*)*
+(a|(b)*)*
+(a)(b)
+a|b|c
+(a|b|c)*
+a|(ab*)*
+a|(a*b*)*
+(a|(a*b*)*)*
+abc|(ab)*(c)|b
+ab|(ab*(ab)*|cb)|ab
+
+((a|(b)*)*|c)|a*(b*|c)b*(a)
+((c)*)*|(c|e)*
+
+aci:
+(abc|bc|bc)|(a|c|c)
+(abc|(bc|a|bc)*|bc)|(a|c|c)
+(b|a|b|a)*
+((a*b*)*|b*(a*b*))
+((a*b*)*|b*(a*b*)*)
+((a*b*)*|b*|(a*b*)*)
+
+ssnf:
+(abc)***
+((abc)*|(cde)*)*
+(abc(cde)*)*
+((abc)*(cde)*)*
+
+dstr:
+(a|b)b|(a|b)a
+(a|b)bc|(a|b)ac
+(a|b)bc|(a|b)ac|(a|b)bc|(a|b)ac
+(bc)*|bc
+
+lambda_set:
+(a*|b)
+(a*|b*)
+(a*|b*)|a
+(ab*)|(a*b)
+(a(ab)*)*|(ba)*  // из вики
+(a(ab)*)*
+(ba)*
+(a|(ab))*b
+(ba|b)aa(a|ab)*  // из презы 
+
+fazz module:
+a(b*c)*  
+
+----------------------
+old regex: ((cc)*|(e|a)*)*
+new regex: ((cc)|a|e)*
+
+idx 9
+a3 c1 c2
+cicle_indexes 0 1
+
+----------------------
+
+old regex: (dd)*cac|a
+new regex: (((dd)*cac)|a)
+fail ddcddcac
