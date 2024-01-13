@@ -155,11 +155,18 @@ string Node::getString()
 
 Node *Node::simple()
 {
+    // избавляемся от ассоциативности, единственных детей в конкатенации или альтернативе
     Node *root = simplifyTree();
+
+    // сильная звездная форма
     root = root->ssnf();
     root = root->simplifyTree();
+
+    // избавляемся от коммутативности и идемпотентности
     root = root->aci();
     root = root->simplifyTree();
+
+    // избавляемся от дистрибутивности
     root = root->dstr();
     root = root->simplifyTree();
     return root;
@@ -178,10 +185,12 @@ Node *Node::simplifyTree()
     }
 
     // ops::CONCAT || ops::OR
+    // здесь упрощение всех детей для конкатенации и или
     for (int i = 0; i < children_.size(); ++i)
     {
         children_[i] = children_[i]->simplifyTree();
     }
+    //в этом цикле идет недопущение того, чтобы у конкатенации дети были конкатенация, а у или - или
     for (int i = 0; i < children_.size(); ++i)
     {
         Node *ch = children_[i];
@@ -196,6 +205,7 @@ Node *Node::simplifyTree()
             removeChild(ch);
         }
     }
+    // здесь устранение конкатенации и или с одним ребенком
     if (children_.size() == 1)
     {
         Node *new_root = children_[0];

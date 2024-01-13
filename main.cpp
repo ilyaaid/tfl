@@ -80,7 +80,7 @@ int main(int, char **)
     srand(time(NULL));
 
     int n_regexes;
-    bool debug = false;
+    bool debug = true;
 
     if (debug)
     {
