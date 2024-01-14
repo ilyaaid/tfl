@@ -37,6 +37,7 @@ public:
     void buildFollow();
     void buildTable();
     bool checkWord(string word, string &message);
+    bool checkLeftRecursion();
 
 private:
     void firstForNTerm();

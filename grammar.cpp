@@ -22,6 +22,10 @@ bool Grammar::isTerm(char el)
     return !(el >= 'A' && el <= 'Z');
 }
 
+bool Grammar::checkLeftRecursion() {
+    return false;
+}
+
 void Grammar::parseRules(vector<string> rules)
 {
     for (int i = 0; i < rules.size(); ++i)
@@ -49,6 +53,10 @@ void Grammar::parseRules(vector<string> rules)
         _add_first_for_rule.push_back({});
         _nt_to_rules[left].push_back(i);
     }
+
+    if (checkLeftRecursion()) {
+        throw runtime_error("В грамматике левая рекурсия");
+    }
 }
 
 //======================== построение множества FIRST
@@ -61,7 +69,7 @@ void Grammar::buildFirst()
 void Grammar::firstForNTerm()
 {
     bool changed = true;
-
+    set<char> rec_nt;
     while (changed)
     {
         changed = false;
@@ -73,6 +81,10 @@ void Grammar::firstForNTerm()
                 int x = _first[nt].size();
 
                 set<char> dop_set = firstForNTermRule(_rules[rules[i]].to);
+                if (dop_set.find(nt) != dop_set.end()) {
+                    rec_nt.insert(nt);
+                    // throw runtime_error("В грамматике левая рекурсия");
+                }
                 _add_first_for_rule[rules[i]] = dop_set;
                 _first[nt].insert(dop_set.begin(), dop_set.end());
 
@@ -81,6 +93,11 @@ void Grammar::firstForNTerm()
                     changed = true;
                 }
             }
+        }
+    }
+    for (auto nt : rec_nt) {
+        if (_first[nt].find(eps) == _first[nt].end()) {
+            throw runtime_error("В грамматике левая рекурсия");
         }
     }
 }
@@ -99,6 +116,7 @@ set<char> Grammar::firstForNTermRule(string to)
     else
     {
         set<char> next_first = _first[to[0]];
+        next_first.insert(to[0]);
         // здесь проверяем, случай перехода из нетерминала в один нетерминал
         // или наличие пустого символа в множестве следующего нетерминала
         if (to.size() == 1 || next_first.find(eps) == next_first.end())
